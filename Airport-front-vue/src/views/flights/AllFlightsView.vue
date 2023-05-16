@@ -9,7 +9,7 @@
       @update="flightToUpdate = { ...$event }"
     >
     </table-template>
-    <router-link to="/createflight">Add new flight</router-link>
+    <router-link class="addflighttext" to="/createflight">Add new flight</router-link>
   </div>
   <flight-details
     :flightDetailId="flightDetailId"
@@ -56,7 +56,7 @@
         <div>
           <label>
             Info:
-            <textarea v-model="flightToUpdate.info" required></textarea>
+            <textarea v-model="flightToUpdate.info"></textarea>
           </label>
         </div>
         <button class="button">
@@ -130,66 +130,82 @@
 };
 </script>
   
-  <style scoped>
-  header {
-    line-height: 1.5;
-    max-height: 100vh;
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.addflighttext{
+    margin-left: 89px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type="button"],
+input[type="submit"] {
+  background-color: #24bb63;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+input[type="button"] {
+  margin-right: 5px;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+  color: black;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .col-25,
+  .col-75,
+  input[type="submit"] {
+  width: 100%;
+  margin-top: 0;
   }
-  
-  .logo {
-    display: block;
-    margin: 0 auto 2rem;
-  }
-  
-  nav {
-    width: 100%;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 2rem;
-  }
-  
-  nav a.router-link-exact-active {
-    color: var(--color-text);
-  }
-  
-  nav a.router-link-exact-active:hover {
-    background-color: transparent;
-  }
-  
-  nav a {
-    display: inline-block;
-    padding: 0 1rem;
-    border-left: 1px solid var(--color-border);
-  }
-  
-  nav a:first-of-type {
-    border: 0;
-  }
-  
-  @media (min-width: 1024px) {
-    header {
-      display: flex;
-      place-items: center;
-      padding-right: calc(var(--section-gap) / 2);
-    }
-  
-    .logo {
-      margin: 0 2rem 0 0;
-    }
-  
-    header .wrapper {
-      display: flex;
-      place-items: flex-start;
-      flex-wrap: wrap;
-    }
-  
-    nav {
-      text-align: left;
-      margin-left: -1rem;
-      font-size: 1rem;
-  
-      padding: 1rem 0;
-      margin-top: 1rem;
-    }
-  }
-  </style>
+}
+</style>

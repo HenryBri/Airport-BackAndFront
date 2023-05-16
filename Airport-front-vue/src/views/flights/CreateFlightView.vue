@@ -85,6 +85,9 @@
           .catch(error => {
               console.log(error)
           })
+        },
+        goBack() {
+        this.$router.go(-1)
       }
     }
   }
@@ -112,7 +115,7 @@
     
     input[type="button"],
     input[type="submit"] {
-        background-color: #4d82c7;
+        background-color: #24bb63;
         color: white;
         padding: 12px 20px;
         border: none;

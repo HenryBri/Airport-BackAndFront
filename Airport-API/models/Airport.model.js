@@ -35,7 +35,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         info: {
             type: Sequelize.STRING(4096),
-            allowNull: false
+            allowNull: true
         }
     })
 

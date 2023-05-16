@@ -1,15 +1,15 @@
 <template>
   <div>
     <form @submit.prevent="submitForm">
-      <label for="code">Enter IATA or ICAO code:</label>
-      <input type="text" id="code" v-model="code">
-      <button type="submit">Search</button>
+      <h3 class="codetext" for="code">Enter IATA or ICAO code:</h3>
+      <input type="text2" id="code" v-model="code">
+      <button class="search-button" type="submit">Search</button>
     </form>
     <div v-if="result.IATA_code || result.ICAO_code">
       <h3 v-if="result.IATA_code">IATA code: {{ result.IATA_code }}</h3>
       <h3 v-if="result.ICAO_code">ICAO code: {{ result.ICAO_code }}</h3>
-      <button v-if="result.id != 0" @click="showDetails">Show Details</button>
-      <button v-if="result.id != 0" @click="showFlights()">Show Flights</button>
+      <button class="show-button" v-if="result.id != 0" @click="showDetails">Show Details</button>
+      <button class="show-button" v-if="result.id != 0" @click="showFlights()">Show Flights</button>
     </div>
     <airport-details :airportDetailId="airportDetailId" @close="closeDetails"></airport-details>
     <modal :show="showFlightsModal" @close="showFlightsModal = false">
@@ -69,7 +69,6 @@ methods: {
       this.result.id = response.data.id;
     } catch (error) {
       console.error(error);
-      alert("An error occurred while fetching the code.");
     }
   },
   showDetails() {
@@ -97,3 +96,116 @@ methods: {
 },
 };
 </script>
+
+
+<style>
+
+* {
+        box-sizing: border-box;
+    }
+    
+    .search-button {
+    background-color: #24bb63;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 12px;
+    margin-top: 5px;
+  }
+
+  .search-button:hover {
+    background-color: #49be4e;
+  }
+
+  .show-button {
+    background-color: #24bb63;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+
+  .show-button:hover {
+    background-color: #49be4e;
+  }
+
+  .codetext{
+    margin-top: 120px;
+  }
+
+    input[type="text2"],
+    select,
+    textarea {
+        width: 130px;
+        padding: 9px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    
+    label {
+        padding: 12px 12px 12px 0;
+        display: inline-block;
+    }
+    
+    input[type="button"],
+    input[type="submit"] {
+        background-color: #24bb63;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }
+    
+    input[type="button"]:hover,
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    
+    input[type="button"] {
+        margin-right: 5px;
+    }
+    
+    .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+    
+    .col-25 {
+        float: left;
+        width: 25%;
+        margin-top: 6px;
+        color: black;
+    }
+    
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+    }
+    
+    .row::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    @media screen and (max-width: 600px) {
+        .col-25,
+        .col-75,
+        input[type="submit"] {
+        width: 100%;
+        margin-top: 0;
+        }
+    }
+</style>

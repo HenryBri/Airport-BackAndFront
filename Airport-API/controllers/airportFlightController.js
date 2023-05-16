@@ -78,6 +78,61 @@ exports.getByName = async (req, res) => {
     }
   }
 
+  exports.updateAirportFlight = async function(newEntry) {
+    const airports = await Airport.findAll()
+    const flights = await Flight.findAll()
+    const airportFlightPromises = []
+
+    if (newEntry instanceof Airport) {
+        for (const flight of flights) {
+            if (newEntry.IATA_code === flight.departure_airport) {
+                airportFlightPromises.push(AirportFlight.findOrCreate({
+                    where: {
+                        airportId: newEntry.id,
+                        flightId: flight.id
+                    },
+                    defaults: {
+                        airportId: newEntry.id,
+                        flightId: flight.id
+                    }
+                }))
+            }
+        }
+    } else if (newEntry instanceof Flight) {
+        for (const airport of airports) {
+            if (airport.IATA_code === newEntry.departure_airport) {
+                airportFlightPromises.push(AirportFlight.findOrCreate({
+                    where: {
+                        airportId: airport.id,
+                        flightId: newEntry.id
+                    },
+                    defaults: {
+                        airportId: airport.id,
+                        flightId: newEntry.id
+                    }
+                }))
+            }
+        }
+    }
+
+    await Promise.all(airportFlightPromises)
+}
+
+exports.createNew = async (req, res) => {
+  let flight
+  try {
+      flight = await Flight.create(req.body)
+      await updateAirportFlight(flight)
+  } catch (error) {
+    if (error instanceof db.Sequelize.ValidationError) {
+      res.status(400).send({ error: error.errors.map((item) => item.message) })
+  } else {
+      console.error("FlightsCreate: ", error)
+      res.status(500).send({ error: "Something went wrong on our side. Sorry" })
+    }
+  }
+}
+
 getBaseUrl = (request) => {
     return (
       (request.connection && request.connection.encrypted ? "https" : "http") +
