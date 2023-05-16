@@ -22,8 +22,8 @@
       <p>Are you sure about deleting the airport?</p>
     </template>
     <template #footer>
-      <button class="modal-default-button" @click="deleteAirport()">Yes</button>
-      <button class="modal-default-button" @click="airportToDelete = {}">
+      <button class="button button-update" @click="deleteAirport()">Yes</button>
+      <button class="button button-cancel" @click="airportToDelete = {}">
         No
       </button>
     </template>

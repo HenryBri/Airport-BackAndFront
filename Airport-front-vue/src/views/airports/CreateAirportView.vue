@@ -109,9 +109,33 @@
     * {
         box-sizing: border-box;
     }
+
+    .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+    
+    .col-25 {
+        float: left;
+        width: 25%;
+        margin-top: 6px;
+        color: black;
+    }
+    
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+    }
+    
+    .row::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
     
     input[type="text"],
-    input[type="number"],
     select,
     textarea {
         width: 100%;
@@ -144,31 +168,6 @@
     
     input[type="button"] {
         margin-right: 5px;
-    }
-    
-    .container {
-        border-radius: 5px;
-        background-color: #f2f2f2;
-        padding: 20px;
-    }
-    
-    .col-25 {
-        float: left;
-        width: 25%;
-        margin-top: 6px;
-        color: black;
-    }
-    
-    .col-75 {
-        float: left;
-        width: 75%;
-        margin-top: 6px;
-    }
-    
-    .row::after {
-        content: "";
-        display: table;
-        clear: both;
     }
     
     @media screen and (max-width: 600px) {

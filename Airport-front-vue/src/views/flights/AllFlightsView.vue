@@ -23,8 +23,8 @@
       <p>Are you sure about deleting the flight?</p>
     </template>
     <template #footer>
-      <button class="modal-default-button" @click="deleteFlight()">Yes</button>
-      <button class="modal-default-button" @click="flightToDelete = {}">
+      <button class="button button-update" @click="deleteFlight()">Yes</button>
+      <button class="button button-cancel" @click="flightToDelete = {}">
         No
       </button>
     </template>

@@ -101,10 +101,10 @@ methods: {
 <style>
 
 * {
-        box-sizing: border-box;
+    box-sizing: border-box;
     }
     
-    .search-button {
+  .search-button {
     background-color: #24bb63;
     color: white;
     padding: 10px;
@@ -138,9 +138,9 @@ methods: {
     margin-top: 120px;
   }
 
-    input[type="text2"],
-    select,
-    textarea {
+  input[type="text2"],
+  select,
+  textarea {
         width: 130px;
         padding: 9px;
         border: 1px solid #ccc;
@@ -150,13 +150,13 @@ methods: {
         margin-top: 5px;
     }
     
-    label {
+  label {
         padding: 12px 12px 12px 0;
         display: inline-block;
     }
     
-    input[type="button"],
-    input[type="submit"] {
+  input[type="button"],
+  input[type="submit"] {
         background-color: #24bb63;
         color: white;
         padding: 12px 20px;
@@ -166,41 +166,41 @@ methods: {
         float: right;
     }
     
-    input[type="button"]:hover,
-    input[type="submit"]:hover {
+  input[type="button"]:hover,
+  input[type="submit"]:hover {
         background-color: #45a049;
     }
     
-    input[type="button"] {
+  input[type="button"] {
         margin-right: 5px;
     }
     
-    .container {
+  .container {
         border-radius: 5px;
         background-color: #f2f2f2;
         padding: 20px;
     }
     
-    .col-25 {
+  .col-25 {
         float: left;
         width: 25%;
         margin-top: 6px;
         color: black;
     }
     
-    .col-75 {
+  .col-75 {
         float: left;
         width: 75%;
         margin-top: 6px;
     }
     
-    .row::after {
+  .row::after {
         content: "";
         display: table;
         clear: both;
     }
     
-    @media screen and (max-width: 600px) {
+  @media screen and (max-width: 600px) {
         .col-25,
         .col-75,
         input[type="submit"] {
