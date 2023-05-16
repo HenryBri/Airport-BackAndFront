@@ -2,7 +2,7 @@ const {db} = require("../db")
 const Flight = db.flights
 
 exports.getAll = async(req, res)=>{
-    const flights = await Flight.findAll({attributes:["id","flight_nr"]})
+    const flights = await Flight.findAll({attributes:["id","flight_nr", "departure_airport", "arrival_airport", "info"]})
     res.send(flights)
 }
 

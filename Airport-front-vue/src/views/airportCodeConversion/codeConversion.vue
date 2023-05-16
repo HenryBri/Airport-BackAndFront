@@ -5,37 +5,42 @@
       <input type="text" id="code" v-model="code">
       <button type="submit">Search</button>
     </form>
-    <div class="result-section" v-if="result.IATA_code || result.ICAO_code">
+    <div v-if="result.IATA_code || result.ICAO_code">
       <h3 v-if="result.IATA_code">IATA code: {{ result.IATA_code }}</h3>
       <h3 v-if="result.ICAO_code">ICAO code: {{ result.ICAO_code }}</h3>
-      <div class="result-section">
       <button v-if="result.id != 0" @click="showDetails">Show Details</button>
-      <button v-if="result.id != 0" @click="showFlights">Show Flights</button>
-      </div>
+      <button v-if="result.id != 0" @click="showFlights()">Show Flights</button>
     </div>
     <airport-details :airportDetailId="airportDetailId" @close="closeDetails"></airport-details>
-    <div class="flight-section" v-if="flights.length">
-      <h2>Flights from this airport:</h2>
-      <ul>
-    <li v-for="flight in flights" :key="flight">{{ flight }}</li>
-  </ul>
-</div>
+    <modal :show="showFlightsModal" @close="showFlightsModal = false">
+      <template #header>
+        <h3>Flights from this Airport</h3>
+      </template>
+      <template #body>
+        <ul>
+          <li v-for="flight in flights" :key="flight">{{ flight }}</li>
+        </ul>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import AirportDetails from '../../components/AirportDetails.vue';
+import Modal from '../../components/Modal.vue';
 
 export default {
 components: {
-  AirportDetails
+  AirportDetails,
+  Modal
 },
 data() {
   return {
     code: '',
     airportDetailId: 0,
     flights: [],
+    showFlightsModal: false,
     result: {
       id: 0,
       IATA_code: '',
@@ -64,6 +69,7 @@ methods: {
       this.result.id = response.data.id;
     } catch (error) {
       console.error(error);
+      alert("An error occurred while fetching the code.");
     }
   },
   showDetails() {
@@ -73,29 +79,21 @@ methods: {
     this.airportDetailId = 0;
   },
   async showFlights() {
+    console.log('showFlights function called');
     try {
-    const response = await axios.get(`http://localhost:8090/airportflight/${encodeURIComponent(this.result.name)}`);
-    this.flights = response.data.map(airportFlight => airportFlight.flight_nr);
-  } catch (error) {
-    console.error(error);
-    alert("An error occurred while fetching the flights.");
-  }
+      this.showFlightsModal = true;
+      const response = await axios.get(`http://localhost:8090/airportflight/${encodeURIComponent(this.result.name)}`);
+      this.flights = response.data.map(airportFlight => airportFlight.flight_nr);
+      if (this.flights.length > 0) {
+        this.showFlightsModal = true;
+      } else {
+        alert("No flights found for this airport.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while fetching the flights.");
+    }
   },
 },
 };
 </script>
-
-
-<style>
-  .flight-section {
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-</style>
-
-<style>
-.result-section {
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-</style>

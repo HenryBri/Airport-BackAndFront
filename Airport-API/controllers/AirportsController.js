@@ -3,7 +3,7 @@ const FlightModel = require("../models/Flight.model")
 const Airport = db.airports
 
 exports.getAll = async(req, res)=>{
-    const airports = await Airport.findAll({attributes:["id","name"]})
+    const airports = await Airport.findAll({attributes:["id","name", "location", "IATA_code", "ICAO_code", "Info"]})
     res.send(airports)
 }
 

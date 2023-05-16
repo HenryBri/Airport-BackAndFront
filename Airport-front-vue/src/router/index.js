@@ -9,19 +9,32 @@ const router = createRouter({
       component: () => import("../views/airports/AllAirportsView.vue"),
     },
     {
+      path: '/createAirport',
+      name: 'createAirport',
+      component: () => import("../views/airports/CreateAirportView.vue")
+    },
+    {
       path: "/flights",
       name: "Flights",
       component: () => import("../views/flights/AllFlightsView.vue"),
     },
     {
+      path: '/createFlight',
+      name: 'createFlight',
+      component: () => import("../views/flights/CreateFlightView.vue")
+    },
+    {
       path: '/airportCodeConversion',
       name: 'IATA',
       component: () => import('../views/airportCodeConversion/codeConversion.vue')
-    },
+    },,
     {
-      path: '/airportflights',
-      name: 'airportflights',
-      component: () => import('../views/airportflights/AirportFlightView.vue')
+      path: "/about",
+      name: "about",
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import("../views/AboutView.vue"),
     }
   ],
 });

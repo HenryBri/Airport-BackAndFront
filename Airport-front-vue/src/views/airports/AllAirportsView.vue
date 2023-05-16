@@ -5,8 +5,10 @@
       :items="airports"
       :showControls="true"
       @show="airportDetailId = $event.id"
-      @delete="airportToDelete = $event">
+      @delete="airportToDelete = $event"
+      @update="airportToUpdate = { ...$event }">
     </table-template>
+    <router-link to="/createAirport">Add new Airport</router-link>
   </div>
   <airport-details
     :airportDetailId="airportDetailId"
@@ -23,6 +25,53 @@
       <button class="modal-default-button" @click="deleteAirport()">Yes</button>
       <button class="modal-default-button" @click="airportToDelete = {}">
         No
+      </button>
+    </template>
+  </modal>
+  <modal :show="airportToUpdate !== null">
+    <template #header>
+      <h3>Update Airport</h3>
+    </template>
+    <template #body>
+      <form @submit.prevent="updateAirport">
+  <div>
+    <label>
+      Name:
+      <input type="text" v-model="airportToUpdate.name" required>
+    </label>
+  </div>
+  <div>
+    <label>
+      Location:
+      <input type="text" v-model="airportToUpdate.location" required>
+    </label>
+  </div>
+  <div>
+    <label>
+      IATA Code:
+      <input type="text" v-model="airportToUpdate.IATA_code" required>
+    </label>
+  </div>
+  <div>
+    <label>
+      ICAO Code:
+      <input type="text" v-model="airportToUpdate.ICAO_code" required>
+    </label>
+  </div>
+  <div>
+    <label>
+      Info:
+      <textarea v-model="airportToUpdate.info" required></textarea>
+    </label>
+  </div>
+  <button class="button">
+    Update
+  </button>
+</form>
+    </template>
+    <template #footer>
+      <button class="button" @click="airportToUpdate = null">
+        Cancel
       </button>
     </template>
   </modal>
@@ -45,6 +94,7 @@ export default {
       airports: [],
       airportDetailId: 0,
       airportToDelete: {},
+      airportToUpdate: null,
     };
   },
   async created() {
@@ -52,7 +102,7 @@ export default {
   },
   methods: {
     async deleteAirport() {
-      fetch("http://localhost:8090/airports/" + this.airportToDelete.id, {
+      fetch("http://localhost:8090/airports/id/" + this.airportToDelete.id, {
         method: "delete",
       }).then(async (response) => {
         if (response.status == 204) {
@@ -64,70 +114,25 @@ export default {
         }
       });
     },
+    updateAirport() {
+      fetch(`http://localhost:8090/airports/id/${this.airportToUpdate.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.airportToUpdate)
+      }).then(async (response) => {
+        if (response.ok) {
+            const index = this.airports.findIndex(airport => airport.id === this.airportToUpdate.id);
+            this.airports[index].id = this.airportToUpdate.id;
+            this.airports[index].name = this.airportToUpdate.name;
+            this.airportToUpdate = null;
+          } else {
+          const data = await response.json();
+          console.log('UPDATE: ', data);
+        }
+      });
+    }
   },
 };
 </script>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
