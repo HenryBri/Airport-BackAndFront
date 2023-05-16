@@ -56,18 +56,16 @@
         <div>
           <label>
             Info:
-            <textarea v-model="flightToUpdate.info"></textarea>
+            <input type="text" v-model="flightToUpdate.info">
           </label>
         </div>
-        <button class="button">
-          Update
-        </button>
       </form>
     </template>
     <template #footer>
-      <button class="button" @click="flightToUpdate = null">
-        Cancel
-      </button>
+      <div class="button-container">
+        <button class="button button-update" @click="updateFlight">Update</button>
+        <button class="button button-cancel" @click="flightToUpdate = null">Cancel</button>
+      </div>
     </template>
   </modal>
 </template>
@@ -198,6 +196,31 @@ input[type="button"] {
   content: "";
   display: table;
   clear: both;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.button {
+  background-color: #24bb63;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 5px;
+  flex-shrink: 0;
+}
+
+.button-update {
+  background-color: #24bb63;
+}
+
+.button-cancel {
+  background-color: #ff6666;
 }
 
 @media screen and (max-width: 600px) {
