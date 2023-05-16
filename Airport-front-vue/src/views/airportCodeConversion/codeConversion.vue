@@ -5,14 +5,16 @@
       <input type="text" id="code" v-model="code">
       <button type="submit">Search</button>
     </form>
-    <div v-if="result.IATA_code || result.ICAO_code">
+    <div class="result-section" v-if="result.IATA_code || result.ICAO_code">
       <h3 v-if="result.IATA_code">IATA code: {{ result.IATA_code }}</h3>
       <h3 v-if="result.ICAO_code">ICAO code: {{ result.ICAO_code }}</h3>
+      <div class="result-section">
       <button v-if="result.id != 0" @click="showDetails">Show Details</button>
       <button v-if="result.id != 0" @click="showFlights">Show Flights</button>
+      </div>
     </div>
     <airport-details :airportDetailId="airportDetailId" @close="closeDetails"></airport-details>
-    <div v-if="flights.length">
+    <div class="flight-section" v-if="flights.length">
       <h2>Flights from this airport:</h2>
       <ul>
     <li v-for="flight in flights" :key="flight">{{ flight }}</li>
@@ -62,7 +64,6 @@ methods: {
       this.result.id = response.data.id;
     } catch (error) {
       console.error(error);
-      alert("An error occurred while fetching the code.");
     }
   },
   showDetails() {
@@ -83,3 +84,18 @@ methods: {
 },
 };
 </script>
+
+
+<style>
+  .flight-section {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+</style>
+
+<style>
+.result-section {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+</style>
